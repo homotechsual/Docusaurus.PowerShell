@@ -12,10 +12,19 @@ function ReplaceFrontMatter() {
         [Parameter(Mandatory = $False)][string]$MetaDescription,
         [Parameter(Mandatory = $False)][array]$MetaKeywords,
         [switch]$HideTitle,
-        [switch]$HideTableOfContents
+        [switch]$HideTableOfContents,
+        [switch]$UseDescriptionFromHelp
     )
 
     $powershellCommandName = [System.IO.Path]::GetFileNameWithoutExtension($markdownFile.Name)
+    if ($UseDescriptionFromHelp) {
+        $content = ReadFile -MarkdownFile $MarkdownFile -Raw
+        $MarkdownParser = [Markdown.MAML.Parser.MarkdownParser]::new()
+        $MarkdownObject = $MarkdownParser.ParseString($content)
+        $DescriptionIndex = $MarkdownObject.Children.FindIndex({$args[0].Text -ceq "DESCRIPTION"})
+        $DescriptionContentIndex = $DescriptionIndex + 1
+        $DescriptionContent = $MarkdownObject.Children[$DescriptionContentIndex].Spans.Text
+    }
 
     # prepare front matter
     $newFrontMatter = [System.Collections.ArrayList]::new()
@@ -26,6 +35,8 @@ function ReplaceFrontMatter() {
     if ($MetaDescription) {
         $description = [regex]::replace($MetaDescription, '%1', $powershellCommandName)
         $newFrontMatter.Add("description: $($description)") | Out-Null
+    } elseif ($UseDescriptionFromHelp) {
+        $newFrontMatter.Add("description: $($DescriptionContent)") | Out-Null
     }
 
     if ($MetaKeywords) {

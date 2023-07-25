@@ -126,6 +126,14 @@ function New-DocusaurusHelp() {
             For more information please
             [visit this page](https://docusaurus-powershell.vercel.app/docs/faq/vendor-agnostic).
 
+        .PARAMETER DescriptionFromHelp
+            Use this switch parameter to use the `DESCRIPTION` node from the Get-Help definition
+            as the `description` front matter variable. This allows you to use the existing
+            help-defined description in your Docusaurus front matter.
+
+            This can be a little slow as it requires parsing the markdown to extract the
+            `DESCRIPTION` node.
+
         .NOTES
             For debugging purposes, Docusaurus.Powershell creates a local temp folder with:
 
@@ -229,6 +237,10 @@ function New-DocusaurusHelp() {
             MetaKeywords = $metaKeywords
             HideTitle = $HideTitle
             HideTableOfContents = $HideTableOfContents
+        }
+
+        if ($UseDescriptionFromHelp) {
+            $frontMatterArgs['UseDescriptionFromHelp'] = $true
         }
 
         # transform the markdown using these steps (overwriting the mdx file per step)
