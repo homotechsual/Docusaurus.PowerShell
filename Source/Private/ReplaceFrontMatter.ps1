@@ -22,7 +22,7 @@ function ReplaceFrontMatter() {
 
     if ($UseDescriptionFromHelp -and (-Not $MetaDescription)) {
         $content = ReadFile -MarkdownFile $MarkdownFile -Raw
-        $DescriptionContent = [RegEx]::Match($Content, '(?mi)(?<=^#{2}\s*Description)[^#]+').Value.Trim()
+        $DescriptionContent = [RegEx]::Match($Content, '(?mi)(?<=^#{2}\s*Description)[^#]+').Value.Trim().Replace([System.Environment]::NewLine, " ")
         Write-Verbose "Description from help: $DescriptionContent"
     }
 

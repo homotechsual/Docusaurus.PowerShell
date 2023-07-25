@@ -170,7 +170,8 @@ function New-DocusaurusHelp() {
         [switch]$HideTableOfContents,
         [switch]$NoPlaceHolderExamples,
         [switch]$Monolithic,
-        [switch]$VendorAgnostic
+        [switch]$VendorAgnostic,
+        [switch]$UseDescriptionFromHelp
     )
 
     GetCallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
