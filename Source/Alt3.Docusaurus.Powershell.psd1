@@ -4,13 +4,13 @@
     RootModule = 'Alt3.Docusaurus.Powershell.psm1'
 
     # Version number of this module.
-    ModuleVersion = '1.0.34'
+    ModuleVersion = '1.0.37'
 
     # ID used to uniquely identify this module
     GUID = '0a746d8a-f1f1-4064-967a-aad1877b2d63'
 
     # Author of this module
-    Author = 'R. van Erkel'
+    Author = 'ALT3 B.V.'
 
     # Company or vendor of this module
     CompanyName = 'ALT3 B.V.'

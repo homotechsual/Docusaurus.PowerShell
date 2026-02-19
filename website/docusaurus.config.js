@@ -23,8 +23,8 @@ module.exports = {
         src: 'img/logo.svg',
       },
       items: [
-        {to: 'docs/introduction', label: 'Docs', position: 'right'},
-        {to: 'docs/commands/New-DocusaurusHelp', label: 'Get-Help', position: 'right'},
+        { to: 'docs/introduction', label: 'Docs', position: 'right' },
+        { to: 'docs/commands/New-DocusaurusHelp', label: 'Commands', position: 'right' },
         {
           href: 'https://github.com/alt3/Docusaurus.Powershell',
           label: 'GitHub',
@@ -56,7 +56,7 @@ module.exports = {
               to: 'docs/usage',
             },
             {
-              label: 'Get-Help',
+              label: 'Command Reference',
               to: 'docs/commands/New-DocusaurusHelp',
             },
           ],
@@ -90,7 +90,7 @@ module.exports = {
         docs: {
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/alt3/Docusaurus.Powershell/edit/main/docusaurus',
+          editUrl: 'https://github.com/alt3/Docusaurus.Powershell/edit/main/website',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -98,4 +98,10 @@ module.exports = {
       },
     ],
   ],
+  future: {
+    experimental_faster: true, // Use new @docusaurus/faster features for faster build
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true, // To support SSG worker threads (experimental_faster.ssgWorkerThreads)
+    },
+  }
 };
