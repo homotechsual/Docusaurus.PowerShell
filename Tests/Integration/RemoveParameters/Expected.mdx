@@ -1,0 +1,93 @@
+---
+id: Test-RemoveParameters
+title: Test-RemoveParameters
+hide_title: false
+hide_table_of_contents: false
+---
+
+## SYNOPSIS
+
+Dummy module to test the -RemoveParameters switch
+
+## SYNTAX
+
+```powershell
+Test-RemoveParameters [[-KeepThisOne] <String>] [[-RemoveMe] <String>] [[-AlsoKeep] <String>]
+ [[-HideMe] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+```
+
+## DESCRIPTION
+
+This function has multiple parameters including some that will be filtered out.
+
+## EXAMPLES
+
+### EXAMPLE 1
+
+```powershell
+Test-RemoveParameters -KeepThisOne "test" -AlsoKeep "value"
+```
+
+This example shows basic usage.
+
+## PARAMETERS
+
+### -KeepThisOne
+
+This parameter should remain in the documentation.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AlsoKeep
+
+Another parameter that should remain in the documentation.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+
+\{\{ Fill ProgressAction Description \}\}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS

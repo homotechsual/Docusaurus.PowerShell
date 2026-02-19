@@ -353,6 +353,7 @@ function New-DocusaurusHelp() {
     $updatedMDXFiles = Get-ChildItem -Path $tempFolder -Filter *.mdx
     if ($GroupByVerb) {
         $processedMDXFiles = [System.Collections.Generic.List[System.IO.FileInfo]]::new()
+        $usedVerbs = [System.Collections.Generic.List[string]]::new()
         $verbs = Get-Verb
         foreach ($verb in $verbs.Verb) {
             Write-Verbose "Processing verb $verb"
@@ -370,6 +371,7 @@ function New-DocusaurusHelp() {
                     Copy-Item -Path $filteredMDXFile.FullName -Destination $OutputFile
                     $processedMDXFiles.Add($OutputFile)
                 }
+                $usedVerbs.Add($verb)
             } else {
                 Write-Verbose "Found 0 files for verb $verb"
             }
@@ -377,17 +379,17 @@ function New-DocusaurusHelp() {
         # generate the `.js` file used for the docusaurus sidebar
         if (-not($VendorAgnostic)) {
             NewSidebarIncludeFile -MarkdownFiles $processedMDXFiles -TempFolder $tempFolder -OutputFolder $sidebarFolder -Sidebar $Sidebar -Alt3Version $alt3Version -GroupByVerb -UsedVerbs $usedVerbs
-        } else {
-            foreach ($updatedMDXFile in $updatedMDXFiles) {
-                Copy-Item -Path $updatedMDXFile.FullName -Destination (Join-Path -Path $sidebarFolder -ChildPath ($updatedMDXFile.Name))
-            }
-            # generate the `.js` file used for the docusaurus sidebar
-            if (-not($VendorAgnostic)) {
-                NewSidebarIncludeFile -MarkdownFiles $mdxFiles -TempFolder $tempFolder -OutputFolder $sidebarFolder -Sidebar $Sidebar -Alt3Version $alt3Version
-            }
         }
-
-        # output Get-ChildItem so end-user can post-process generated files as they see fit
-        Get-ChildItem -Path $sidebarFolder
+    } else {
+        foreach ($updatedMDXFile in $updatedMDXFiles) {
+            Copy-Item -Path $updatedMDXFile.FullName -Destination (Join-Path -Path $sidebarFolder -ChildPath ($updatedMDXFile.Name))
+        }
+        # generate the `.js` file used for the docusaurus sidebar
+        if (-not($VendorAgnostic)) {
+            NewSidebarIncludeFile -MarkdownFiles $updatedMDXFiles -TempFolder $tempFolder -OutputFolder $sidebarFolder -Sidebar $Sidebar -Alt3Version $alt3Version
+        }
     }
+
+    # output Get-ChildItem so end-user can post-process generated files as they see fit
+    Get-ChildItem -Path $sidebarFolder
 }

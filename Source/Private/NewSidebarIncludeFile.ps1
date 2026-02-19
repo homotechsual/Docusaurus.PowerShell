@@ -15,7 +15,8 @@ function NewSidebarIncludeFile() {
         [Parameter(Mandatory = $True)][string]$Sidebar,
         [Parameter(Mandatory = $True)][Object]$MarkdownFiles,
         [Parameter(Mandatory = $True)][Version]$Alt3Version,
-        [switch]$GroupByVerb
+        [switch]$GroupByVerb,
+        [Parameter(Mandatory = $False)][Object]$UsedVerbs = $null
     )
 
     GetCallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
