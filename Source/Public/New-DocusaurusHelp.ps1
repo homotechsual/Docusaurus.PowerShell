@@ -136,6 +136,11 @@ function New-DocusaurusHelp() {
 
             If used, when the sidebar folder is cleaned it will be cleaned assuming it has the verb subfolder structure.
 
+        .PARAMETER RemoveParameters
+            Optional array of parameter names to exclude from the generated documentation.
+
+            Useful for filtering out common parameters like `-ProgressAction` that you don't want documented.
+
         .NOTES
             For debugging purposes, Docusaurus.Powershell creates a local temp folder with:
 
@@ -176,7 +181,8 @@ function New-DocusaurusHelp() {
         [switch]$NoPlaceHolderExamples,
         [switch]$Monolithic,
         [switch]$VendorAgnostic,
-        [switch]$GroupByVerb
+        [switch]$GroupByVerb,
+        [Parameter(Mandatory = $False)][array]$RemoveParameters = @()
     )
 
     GetCallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
@@ -313,6 +319,10 @@ function New-DocusaurusHelp() {
 
         if ($AppendMarkdown) {
             InsertUserMarkdown -MarkdownFile $mdxFile -Markdown $AppendMarkdown -Mode 'Append'
+        }
+
+        if ($RemoveParameters.Count -gt 0) {
+            RemoveParameters -MarkdownFile $mdxFile -RemoveParameters $RemoveParameters
         }
 
         # Post-fix complex multiline code examples (https://github.com/pester/Pester/issues/2195)
