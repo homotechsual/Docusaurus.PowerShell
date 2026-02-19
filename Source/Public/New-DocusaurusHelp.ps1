@@ -182,7 +182,9 @@ function New-DocusaurusHelp() {
         [switch]$Monolithic,
         [switch]$VendorAgnostic,
         [switch]$GroupByVerb,
-        [Parameter(Mandatory = $False)][array]$RemoveParameters = @()
+        [Parameter(Mandatory = $False)][array]$RemoveParameters = @(),
+        [switch]$UseCustomShortTitles,
+        [Parameter(Mandatory = $False)][hashtable]$ShortTitles = @{}
     )
 
     GetCallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
@@ -293,6 +295,13 @@ function New-DocusaurusHelp() {
         # prepare per-page variables
         $customEditUrl = GetCustomEditUrl -Module $Module -MarkdownFile $mdxFile -EditUrl $EditUrl -Monolithic:$Monolithic
 
+        # Extract command name from file and get custom short title if applicable
+        $commandName = [System.IO.Path]::GetFileNameWithoutExtension($mdxFile.Name)
+        $customShortTitle = $null
+        if ($UseCustomShortTitles -and $ShortTitles -and $ShortTitles.ContainsKey($commandName)) {
+            $customShortTitle = $ShortTitles[$commandName]
+        }
+
         $frontMatterArgs = @{
             MarkdownFile        = $mdxFile
             MetaDescription     = $metaDescription
@@ -300,6 +309,11 @@ function New-DocusaurusHelp() {
             MetaKeywords        = $metaKeywords
             HideTitle           = $HideTitle
             HideTableOfContents = $HideTableOfContents
+        }
+
+        # Add custom short title if available
+        if ($customShortTitle) {
+            $frontMatterArgs['CustomShortTitle'] = $customShortTitle
         }
 
         # transform the markdown using these steps (overwriting the mdx file per step)

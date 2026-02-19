@@ -11,6 +11,7 @@ function ReplaceFrontMatter() {
         [Parameter(Mandatory = $False)][string]$CustomEditUrl,
         [Parameter(Mandatory = $False)][string]$MetaDescription,
         [Parameter(Mandatory = $False)][array]$MetaKeywords,
+        [Parameter(Mandatory = $False)][string]$CustomShortTitle,
         [switch]$HideTitle,
         [switch]$HideTableOfContents
     )
@@ -21,7 +22,10 @@ function ReplaceFrontMatter() {
     $newFrontMatter = [System.Collections.ArrayList]::new()
     $newFrontMatter.Add("---") | Out-Null
     $newFrontMatter.Add("id: $($powershellCommandName)") | Out-Null
-    $newFrontMatter.Add("title: $($powershellCommandName)") | Out-Null
+
+    # Use custom short title if provided, otherwise use the command name
+    $titleToUse = if ($CustomShortTitle) { $CustomShortTitle } else { $powershellCommandName }
+    $newFrontMatter.Add("title: $($titleToUse)") | Out-Null
 
     if ($MetaDescription) {
         $description = [regex]::replace($MetaDescription, '%1', $powershellCommandName)
