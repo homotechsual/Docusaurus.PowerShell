@@ -262,7 +262,9 @@ function New-DocusaurusHelp() {
     if ($PSCmdlet.ParameterSetName.Equals('Module'))
     {
         Write-Verbose "Generating PlatyPS files."
-        New-MarkdownHelp -Module $Module -OutputFolder $tempFolder -Force | Out-Null
+        # Get the actual module object, not just the name string
+        $moduleObject = Get-Module -Name $Module
+        New-MarkdownHelp -Module $moduleObject -OutputFolder $tempFolder -Force | Out-Null
     }
     else
     {
